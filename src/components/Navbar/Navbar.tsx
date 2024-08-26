@@ -93,9 +93,9 @@ const Navbar = () => {
       )}
       {/* Login  */}
 
-      <NavLink to="/login" className="ml-3 md:ml-0 hidden md:block">
+      <NavLink to="/sign-in" className="ml-3 md:ml-0 hidden md:block">
         <div className="flex justify-center items-center bg-black hover:bg-slate-950 text-slate-100 hover:text-white rounded-full px-4 py-1.5 border-[1px] border-black hover:border-blue-500 duration-200 cursor-pointer relative">
-          Login
+          Sign In
         </div>
       </NavLink>
 
