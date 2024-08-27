@@ -2,9 +2,25 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
+import { jwtDecode } from "jwt-decode";
+import ProfileDropDown from "./ProfileDropDown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  // Retrieve the persisted user data from localStorage
+  const persistedUser = localStorage.getItem("persist:user");
+
+  // // Parse the JSON string to get the object
+  const parsedUser = JSON.parse(persistedUser as string);
+
+  // // Access the token, which is itself a JSON string, so parse it again
+  const token = JSON.parse(parsedUser.token);
+
+  let decodedUser;
+  if (token) {
+    decodedUser = jwtDecode(token);
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -91,13 +107,17 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {/* Login  */}
+      {/* Login / profile */}
 
-      <NavLink to="/sign-in" className="ml-3 md:ml-0 hidden md:block">
-        <div className="flex justify-center items-center bg-black hover:bg-slate-950 text-slate-100 hover:text-white rounded-full px-4 py-1.5 border-[1px] border-black hover:border-blue-500 duration-200 cursor-pointer relative">
-          Sign In
-        </div>
-      </NavLink>
+      {decodedUser ? (
+        <ProfileDropDown user={decodedUser} />
+      ) : (
+        <NavLink to="/sign-in" className="ml-3 md:ml-0 hidden md:block">
+          <div className="flex justify-center items-center bg-black hover:bg-slate-950 text-slate-100 hover:text-white rounded-full px-4 py-1.5 border-[1px] border-black hover:border-blue-500 duration-200 cursor-pointer relative">
+            Sign In
+          </div>
+        </NavLink>
+      )}
 
       {/* mobile menu button */}
       <div className="lg:hidden">

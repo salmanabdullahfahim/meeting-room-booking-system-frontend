@@ -6,6 +6,8 @@ import Logo from "../components/Navbar/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { useSigninMutation } from "../redux/api/auth/authApi";
 import toast from "react-hot-toast";
+import { useAppDispatch } from "../redux/hooks";
+import { setToken } from "../redux/features/userSlice";
 
 // Define the Zod schema for validation
 const signInSchema = z.object({
@@ -15,6 +17,7 @@ const signInSchema = z.object({
 
 export function SignIn() {
   const [signin, { isLoading, error }] = useSigninMutation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -30,12 +33,14 @@ export function SignIn() {
   const onSubmit = async (data) => {
     try {
       const response = await signin(data).unwrap();
-      console.log("User signed in successfully:", response);
 
       // Reset the form fields after successful submission
       reset();
       // Handle successful sign-in
       toast.success("User signed in successfully");
+
+      // Store the token in local storage
+      dispatch(setToken(response.token));
 
       // Navigate to the home page
       navigate("/");

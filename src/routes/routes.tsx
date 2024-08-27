@@ -6,6 +6,8 @@ import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import AboutUs from "../pages/AboutUs";
 import ErrorPage from "../pages/ErrorPage";
+import AllRoomsPage from "@/pages/AllRoomsPage";
+import { RoomDetails } from "@/pages/RoomDetails";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/meetings-rooms",
+        element: <AllRoomsPage />,
       },
       {
         path: "/contact-us",
@@ -32,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
+      },
+      {
+        path: "/meetings-rooms/:id",
+        element: <RoomDetails />,
       },
     ],
   },

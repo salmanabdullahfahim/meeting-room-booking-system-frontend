@@ -46,7 +46,7 @@ const IncentiveItem: React.FC<{ item: Item }> = ({ item }) => (
 
 const ServiceAdds: React.FC = () => {
   return (
-    <section className="ezy__epincentives3 light py-14 md:py-6 bg-white  text-black  relative overflow-hidden z-10 ">
+    <section className="ezy__epincentives3 light py-14 md:py-6  text-black  relative overflow-hidden">
       <Container>
         <div className="container px-4 mx-auto">
           <div className="flex max-w-3xl justify-center text-center mx-auto">
