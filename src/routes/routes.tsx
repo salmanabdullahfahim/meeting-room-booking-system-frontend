@@ -12,6 +12,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import Booking from "@/pages/Booking";
 import Checkout from "@/pages/checkout";
 import MyBooking from "@/pages/Mybooking";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import Dashboard from "@/components/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +78,21 @@ const router = createBrowserRouter([
             <MyBooking />{" "}
           </ProtectedRoute>
         ),
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute role="admin">
+        {" "}
+        <DashboardLayout />{" "}
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Dashboard />,
       },
     ],
   },
