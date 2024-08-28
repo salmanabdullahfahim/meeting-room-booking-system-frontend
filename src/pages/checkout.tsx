@@ -10,13 +10,11 @@ import { IoIosTime } from "react-icons/io";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 
 import { useState } from "react";
-import {
-  useAddBookingsMutation,
-  useGetAvailableSlotsQuery,
-} from "@/redux/api/booking/bookingApi";
+import { useAddBookingsMutation } from "@/redux/api/booking/bookingApi";
 import { useGetUserByEmailQuery } from "@/redux/api/auth/authApi";
 import { useGetSingleRoomQuery } from "@/redux/api/room/roomApi";
 import { clearBookingData } from "@/redux/features/bookingSlice";
+import { useGetAvailableSlotsQuery } from "@/redux/api/slot/slotApi";
 
 type Slot = {
   startTime: string;

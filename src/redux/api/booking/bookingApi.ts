@@ -2,18 +2,6 @@ import { baseApi } from "../baseApi";
 
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAvailableSlots: builder.query({
-      query: ({ date, roomId }) => {
-        return {
-          url: "/slots/availability",
-          method: "GET",
-          params: {
-            date,
-            roomId,
-          },
-        };
-      },
-    }),
     addBookings: builder.mutation({
       query: (data) => {
         console.log(data);
@@ -47,7 +35,6 @@ const bookingApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetAvailableSlotsQuery,
   useAddBookingsMutation,
   useGetAllBookingsQuery,
   useMyBookingsQuery,

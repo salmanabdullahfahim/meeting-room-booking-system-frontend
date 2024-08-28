@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -7,8 +7,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { useGetUserByEmailQuery } from "@/redux/api/auth/authApi";
-import { useGetAvailableSlotsQuery } from "@/redux/api/booking/bookingApi";
+
 import { setBookingData, TBooking } from "@/redux/features/bookingSlice";
+import { useGetAvailableSlotsQuery } from "@/redux/api/slot/slotApi";
 
 const Booking = () => {
   const { id: roomId } = useParams();
@@ -17,28 +18,31 @@ const Booking = () => {
   const [selectedSlots, setSelectedSlots] = useState([]);
   const user = useAppSelector((state) => state.auth.user);
   const { data: userData } = useGetUserByEmailQuery(user?.email);
-  const { data: slotData, isLoading } = useGetAvailableSlotsQuery({
-    date: selectedDate.toISOString().split("T")[0],
-    roomId,
-  });
+  const {
+    data: slotData,
+    isLoading,
+    refetch,
+  } = useGetAvailableSlotsQuery(
+    {
+      date: selectedDate.toISOString().split("T")[0],
+      roomId,
+    },
+    { skip: !selectedDate || !roomId }
+  );
 
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  console.log(slotData);
+  // Refetch slots whenever the selectedDate changes
+  useEffect(() => {
+    if (selectedDate && roomId) {
+      refetch();
+    }
+  }, [selectedDate, roomId, refetch]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#7b82ed]"></div>
-      </div>
-    );
-  }
-
-  // Filter and map the data
-  const availableSlots = slotData?.data.filter((room: any) => !room.isBooked);
-  console.log(availableSlots);
+  console.log("slotdata", slotData);
+  console.log(selectedDate);
 
   const handleSlotSelection = (slotId: any) => {
     setSelectedSlots((prevSlots: any) =>
@@ -47,8 +51,6 @@ const Booking = () => {
         : [...prevSlots, slotId]
     );
   };
-
-  console.log(selectedSlots);
 
   const handleBookingConfirmation = () => {
     const payload: TBooking = {
@@ -62,6 +64,14 @@ const Booking = () => {
     navigate("/checkout");
   };
 
+  if (isLoading) {
+    console.log("loading");
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#7b82ed]"></div>
+      </div>
+    );
+  }
   return (
     <div className="container mt-40 md:mt-0 mx-auto px-4 py-8">
       <h2 className="text-3xl mb-2 font-medium tracking-wider text-center">
@@ -74,6 +84,7 @@ const Booking = () => {
       <div className="border mt-5 border-[#7b82ed] p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Select Booking Date</h2>
         <DatePicker
+          key={selectedDate.toString()}
           selected={selectedDate}
           //@ts-expect-error :'date' is possibly 'null'
           onChange={(date) => setSelectedDate(date)}
@@ -84,9 +95,9 @@ const Booking = () => {
         <h2 className="text-xl font-semibold mt-6 mb-4">
           Available Time Slots
         </h2>
-        {availableSlots && availableSlots?.length > 0 ? (
+        {slotData?.data && slotData?.data.length > 0 ? (
           <ul className="list-disc pl-5">
-            {availableSlots?.map((slot: any) => (
+            {slotData?.data.map((slot: any) => (
               <li key={slot._id} className="mb-2">
                 <input
                   type="checkbox"

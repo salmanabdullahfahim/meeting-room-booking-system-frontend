@@ -11,7 +11,7 @@ import { RoomDetails } from "@/pages/RoomDetails";
 import ProtectedRoute from "./ProtectedRoute";
 import Booking from "@/pages/Booking";
 import Checkout from "@/pages/checkout";
-import MyBookings from "@/pages/Mybookings";
+import MyBooking from "@/pages/Mybooking";
 
 const router = createBrowserRouter([
   {
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute role="user">
             {" "}
-            <MyBookings />{" "}
+            <MyBooking />{" "}
           </ProtectedRoute>
         ),
       },
