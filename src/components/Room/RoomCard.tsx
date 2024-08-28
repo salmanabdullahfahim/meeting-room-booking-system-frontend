@@ -32,7 +32,7 @@ export function RoomCard({ room }: { room: TRoom }) {
         <Link to={`/meetings-rooms/${room._id}`}>
           <button
             type="button"
-            className="mt-4 w-full rounded-sm bg-black px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="mt-4 w-full rounded-sm bg-[#4a53c0] px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-[#4a53c0]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
             See Details
           </button>

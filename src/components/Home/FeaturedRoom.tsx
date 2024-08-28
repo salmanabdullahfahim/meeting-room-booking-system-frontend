@@ -25,7 +25,10 @@ const FeaturedRoom = () => {
 
       <div className="text-center my-6">
         <Link to="/meetings-rooms">
-          <Button type="button" className="text-sm font-medium">
+          <Button
+            type="button"
+            className="text-sm font-medium bg-[#4a53c0] hover:bg-[#4a53c0]/90 px-12"
+          >
             See All Rooms
           </Button>
         </Link>

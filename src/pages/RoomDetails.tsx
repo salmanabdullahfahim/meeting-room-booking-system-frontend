@@ -86,7 +86,7 @@ export function RoomDetails() {
           <div className="space-s-4 3xl:pr-48 flex items-center gap-2  py-8  md:pr-32 lg:pr-12 2xl:pr-32">
             <Link
               to={`/booking/${id}`}
-              className="h-11 w-full rounded-md bg-black px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black text-center"
+              className="h-11 w-full rounded-md bg-[#4a53c0] px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[#4a53c0]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black text-center"
             >
               Book Now
             </Link>

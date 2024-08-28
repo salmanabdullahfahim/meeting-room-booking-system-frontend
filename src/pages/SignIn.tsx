@@ -48,6 +48,7 @@ export function SignIn() {
       toast.success("User signed in successfully");
 
       // Get the 'from' location from state or default to homepage
+
       const from = location.state?.from?.pathname || "/";
 
       // Navigate to the intended page or home page
@@ -72,7 +73,7 @@ export function SignIn() {
             Don&apos;t have an account?{" "}
             <Link
               to="/sign-up"
-              className="font-semibold text-black transition-all duration-200 hover:underline"
+              className="font-semibold text-[#4a53c0] transition-all duration-200 hover:underline"
             >
               Create a free account
             </Link>
@@ -128,7 +129,7 @@ export function SignIn() {
               <div>
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                  className="inline-flex w-full items-center justify-center rounded-md bg-[#4a53c0] px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-[#4a53c0]/80"
                   disabled={isLoading}
                 >
                   {isLoading ? "Signing In..." : "Sign In"}
