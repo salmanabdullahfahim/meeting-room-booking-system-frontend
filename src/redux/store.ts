@@ -1,11 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./api/baseApi";
-import { persistReducer, persistStore } from "redux-persist";
+import {
+  FLUSH,
+  persistReducer,
+  persistStore,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./features/userSlice";
+import bookingReducer from "./features/bookingSlice";
 
 const persistConfig = {
-  key: "user",
+  key: "auth",
   storage,
 };
 
@@ -14,13 +24,18 @@ const persistedUserReducer = persistReducer(persistConfig, userReducer);
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    user: persistedUserReducer,
+    auth: persistedUserReducer,
+    booking: bookingReducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(baseApi.middleware),
 });
 
 export const persist = persistStore(store);

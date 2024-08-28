@@ -5,7 +5,7 @@ export function RoomDetails() {
   const { id } = useParams();
 
   const { data } = useGetSingleRoomQuery(id as string);
-  console.log(data);
+
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-8 2xl:px-16">
       <div className="pt-8">
@@ -84,12 +84,12 @@ export function RoomDetails() {
             </div>
           </div>
           <div className="space-s-4 3xl:pr-48 flex items-center gap-2  py-8  md:pr-32 lg:pr-12 2xl:pr-32">
-            <button
-              type="button"
-              className="h-11 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            <Link
+              to={`/booking/${id}`}
+              className="h-11 w-full rounded-md bg-black px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black text-center"
             >
               Book Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

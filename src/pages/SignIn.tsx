@@ -7,7 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSigninMutation } from "../redux/api/auth/authApi";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../redux/hooks";
-import { setToken } from "../redux/features/userSlice";
+import { setUser } from "../redux/features/userSlice";
+import { verifyToken } from "@/utils/Token/verifyToken";
 
 // Define the Zod schema for validation
 const signInSchema = z.object({
@@ -16,7 +17,7 @@ const signInSchema = z.object({
 });
 
 export function SignIn() {
-  const [signin, { isLoading, error }] = useSigninMutation();
+  const [signin, { isLoading }] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
@@ -36,14 +37,21 @@ export function SignIn() {
 
       // Reset the form fields after successful submission
       reset();
+
+      // extract user
+      const user = verifyToken(response?.token);
+
+      // Store the token in local storage
+      dispatch(setUser({ user: user, token: response?.token }));
+
       // Handle successful sign-in
       toast.success("User signed in successfully");
 
-      // Store the token in local storage
-      dispatch(setToken(response.token));
+      // Get the 'from' location from state or default to homepage
+      const from = location.state?.from?.pathname || "/";
 
-      // Navigate to the home page
-      navigate("/");
+      // Navigate to the intended page or home page
+      navigate(from, { replace: true });
     } catch (err) {
       console.error("Failed to sign in:", err);
       toast.error(err?.data?.message);

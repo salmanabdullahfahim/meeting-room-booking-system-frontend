@@ -6,8 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { SignOut } from "@/redux/features/userSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { JwtPayload } from "jwt-decode";
-import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 
 interface CustomJwtPayload extends JwtPayload {
@@ -16,12 +19,19 @@ interface CustomJwtPayload extends JwtPayload {
 const ProfileDropDown = ({ user }: { user: CustomJwtPayload }) => {
   console.log(user);
 
-  const handleSignOut = () => {};
+  const dispatch = useAppDispatch();
+
+  const handleSignOut = () => {
+    dispatch(SignOut());
+  };
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <CgProfile className="ml-3 md:ml-0 hidden md:block w-8 h-8 cursor-pointer" />
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>PF</AvatarFallback>
+          </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -35,7 +45,9 @@ const ProfileDropDown = ({ user }: { user: CustomJwtPayload }) => {
               <Link to="/dashboard">Dashboard</Link>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem onClick={handleSignOut}>SignOut</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+            SignOut
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

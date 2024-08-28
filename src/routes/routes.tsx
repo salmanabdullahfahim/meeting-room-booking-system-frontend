@@ -8,6 +8,10 @@ import AboutUs from "../pages/AboutUs";
 import ErrorPage from "../pages/ErrorPage";
 import AllRoomsPage from "@/pages/AllRoomsPage";
 import { RoomDetails } from "@/pages/RoomDetails";
+import ProtectedRoute from "./ProtectedRoute";
+import Booking from "@/pages/Booking";
+import Checkout from "@/pages/checkout";
+import MyBookings from "@/pages/Mybookings";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +45,37 @@ const router = createBrowserRouter([
       },
       {
         path: "/meetings-rooms/:id",
-        element: <RoomDetails />,
+        element: (
+          <ProtectedRoute role="user">
+            <RoomDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/booking/:id",
+        element: (
+          <ProtectedRoute role="user">
+            <Booking />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoute role="user">
+            {" "}
+            <Checkout />{" "}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-bookings",
+        element: (
+          <ProtectedRoute role="user">
+            {" "}
+            <MyBookings />{" "}
+          </ProtectedRoute>
+        ),
       },
     ],
   },

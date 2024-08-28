@@ -2,25 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
-import { jwtDecode } from "jwt-decode";
 import ProfileDropDown from "./ProfileDropDown";
+import { useAppSelector } from "@/redux/hooks";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  // Retrieve the persisted user data from localStorage
-  const persistedUser = localStorage.getItem("persist:user");
-
-  // // Parse the JSON string to get the object
-  const parsedUser = JSON.parse(persistedUser as string);
-
-  // // Access the token, which is itself a JSON string, so parse it again
-  const token = JSON.parse(parsedUser.token);
-
-  let decodedUser;
-  if (token) {
-    decodedUser = jwtDecode(token);
-  }
+  const user = useAppSelector((state) => state.auth.user);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -47,7 +34,7 @@ const Navbar = () => {
 
   return (
     <div className=" bg-white flex items-center justify-between h-[65px] p-4 md:px-12   w-full shadow-md sticky top-0 z-20">
-      {/* keyboard logo or name */}
+      {/* Company logo or name */}
       <Logo />
       {/* desktop menu */}
       <div className="hidden lg:block">
@@ -109,8 +96,8 @@ const Navbar = () => {
       )}
       {/* Login / profile */}
 
-      {decodedUser ? (
-        <ProfileDropDown user={decodedUser} />
+      {user?.email ? (
+        <ProfileDropDown user={user} />
       ) : (
         <NavLink to="/sign-in" className="ml-3 md:ml-0 hidden md:block">
           <div className="flex justify-center items-center bg-black hover:bg-slate-950 text-slate-100 hover:text-white rounded-full px-4 py-1.5 border-[1px] border-black hover:border-blue-500 duration-200 cursor-pointer relative">
