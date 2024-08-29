@@ -39,8 +39,6 @@ const AllRooms = () => {
     );
   }
 
-  console.log(data);
-
   const handleUpdate = (roomId: any) => {
     setSelectedRoomId(roomId);
     setIsDialogOpen(true);
@@ -78,7 +76,7 @@ const AllRooms = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        deleteRoom({ rId: id })
+        deleteRoom(id)
           .then((response) => {
             if (response?.data) {
               swal("Deleted!", "The room has been deleted.", "success");
@@ -94,8 +92,6 @@ const AllRooms = () => {
         swal("Cancelled", "The room is safe!", "info");
       }
     });
-
-    console.log(id, "del");
   }
 
   return (
