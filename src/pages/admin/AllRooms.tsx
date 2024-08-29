@@ -17,6 +17,7 @@ import {
   useGetAllTypesRoomsQuery,
 } from "@/redux/api/room/roomApi";
 import UpdateRoom from "@/components/Dashboard/UpdateRoom/UpdateRoom";
+import CreateRoom from "@/components/Dashboard/CreateRoom/CreateRoom";
 
 const AllRooms = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
@@ -159,12 +160,12 @@ const AllRooms = () => {
           setIsDialogOpen={setIsDialogOpen}
         />
       )}
-      {/* {createDialogOpen && (
+      {createDialogOpen && (
         <CreateRoom
           isDialogOpen={createDialogOpen}
           setIsDialogOpen={setCreateDialogOpen}
         />
-      )} */}
+      )}
     </div>
   );
 };

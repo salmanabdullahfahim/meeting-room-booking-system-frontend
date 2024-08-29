@@ -9,6 +9,16 @@ const roomApi = baseApi.injectEndpoints({
       }),
       providesTags: ["room"],
     }),
+    addRooms: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/rooms",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["room"],
+    }),
     getAllTypesRooms: builder.query({
       query: () => ({
         url: "/rooms/all-types-room",
@@ -25,9 +35,8 @@ const roomApi = baseApi.injectEndpoints({
     }),
     updateRoom: builder.mutation({
       query: (data) => {
-        console.log("sending rooms==>", data);
         return {
-          url: `rooms/${data?.rId}`,
+          url: `/rooms/${data?.rId}`,
           method: "PUT",
           body: data.data,
         };
@@ -46,6 +55,7 @@ const roomApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllRoomsQuery,
+  useAddRoomsMutation,
   useGetAllTypesRoomsQuery,
   useGetSingleRoomQuery,
   useUpdateRoomMutation,

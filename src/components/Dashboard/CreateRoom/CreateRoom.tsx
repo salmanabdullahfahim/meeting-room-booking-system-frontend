@@ -1,5 +1,14 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { TiDelete } from "react-icons/ti";
+
+import swal from "sweetalert";
 import {
   Dialog,
   DialogContent,
@@ -8,27 +17,32 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { TiDelete } from "react-icons/ti";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import swal from "sweetalert";
-import {
-  useGetSingleRoomQuery,
-  useUpdateRoomMutation,
-} from "@/redux/api/room/roomApi";
+import { useAddRoomsMutation } from "@/redux/api/room/roomApi";
 import toast from "react-hot-toast";
 
-const updateMeetingRoomValidationSchema = z.object({
-  image: z.array(z.string().url("Each image must be a valid URL")).optional(),
+// Define Zod schema for room validation
+const meetingRoomValidationSchema = z.object({
+  images: z
+    .array(z.string().url("Each image must be a valid URL"))
+    .min(2, "At least two images are required"),
   name: z.string().min(1, "Name is required"),
-  roomNo: z.preprocess((val) => Number(val), z.number().optional()),
-  floorNo: z.preprocess((val) => Number(val), z.number().optional()),
-  capacity: z.preprocess((val) => Number(val), z.number().optional()),
-  pricePerSlot: z.preprocess((val) => Number(val), z.number().optional()),
+
+  roomNo: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, "Room number is required")
+  ),
+  floorNo: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, "Floor number is required")
+  ),
+  capacity: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, "Capacity is required")
+  ),
+  pricePerSlot: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, "Price per slot is required")
+  ),
   amenities: z
     .array(
       z
@@ -38,14 +52,11 @@ const updateMeetingRoomValidationSchema = z.object({
           message: "Amenities must only contain alphabetic characters",
         })
     )
-    .optional(),
+    .min(1, "At least one amenity is required"),
 });
 
-const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
-  console.log(roomId, "roomId");
-  const [alertShown, setAlertShown] = useState(false);
-
-  const [updateRoom] = useUpdateRoomMutation();
+const CreateRoom = ({ isDialogOpen, setIsDialogOpen }: any) => {
+  const [addRooms] = useAddRoomsMutation();
 
   const {
     register,
@@ -54,7 +65,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     setValue,
     reset,
   } = useForm({
-    resolver: zodResolver(updateMeetingRoomValidationSchema),
+    resolver: zodResolver(meetingRoomValidationSchema),
   });
 
   const [roomDetails, setRoomDetails] = useState<{
@@ -64,7 +75,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     capacity: string;
     pricePerSlot: string;
     amenities: string[];
-    image: string[];
+    images: string[];
   }>({
     name: "",
     roomNo: "",
@@ -72,54 +83,18 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     capacity: "",
     pricePerSlot: "",
     amenities: [],
-    image: [],
+    images: [],
   });
 
   const [newAmenity, setNewAmenity] = useState("");
-  const [newImage, setNewImage] = useState("");
-
-  const {
-    data: roomData,
-
-    isLoading,
-  } = useGetSingleRoomQuery(roomId);
-
-  console.log(roomData);
-
-  if (isLoading) {
-    return (
-      <div className=" w-full flex justify-center items-center h-screen z-50">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#557856]"></div>
-      </div>
-    );
-  }
-
-  if (roomData?.data?.isDeleted && !alertShown) {
-    // Show the alert only if it hasn't been shown before
-    swal({
-      title: "Update Failed",
-      text: "You can't update this room as it has already been deleted.",
-      icon: "error",
-      //@ts-expect-error :'buttons' is generated error
-      buttons: "Okay",
-    }).then(() => {
-      setAlertShown(false); // Reset the alert state after user acknowledges
-    });
-
-    // Set the alert as shown
-    setAlertShown(true);
-
-    // Exit the function to prevent further actions
-    return;
-  }
-
-  console.log(errors?.amenities);
+  const [newImage, setNewImage] = useState(""); // New state for new image URL
 
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log("Form data:", data);
     // Reset form after submission
     reset();
-    // const toastId = toast.loading("updating room...");
+
     setRoomDetails({
       name: "",
       roomNo: "",
@@ -127,40 +102,42 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
       capacity: "",
       pricePerSlot: "",
       amenities: [],
-      image: [],
+      images: [],
     });
-
-    const updatedData = {
-      rId: roomId,
-      data: {
-        ...data,
-        amenities:
-          newAmenity?.length > 0 && roomData?.data?.amenities?.length > 0
-            ? [...roomData.data.amenities, newAmenity]
-            : [...(roomData?.data?.amenities || [])],
-        // Handle images
-        image:
-          newImage?.length > 0 && roomData?.data?.image?.length > 0
-            ? [...roomData.data.image, newImage]
-            : [...(roomData?.data?.image || [])],
-      },
-    };
-    console.log(updatedData);
     try {
-      //call addAcademicSemester for data saving
-      const res = await updateRoom(updatedData).unwrap();
-      console.log(res);
+      const res = await addRooms(data).unwrap();
 
       if (res?.success) {
-        toast.success(res?.message);
+        toast.success(res?.data?.message);
+        swal("Room added", "", "success");
       }
       if (res?.error) {
-        toast.error(res?.message);
+        toast.error(res?.error.data.message);
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
       toast.error("something went wrong.");
     }
+  };
+
+  // Function to add new image URL
+  const handleAddImage = () => {
+    if (newImage.trim() !== "") {
+      setValue("images", [...roomDetails?.images, newImage.trim()]); // Update form state
+      setRoomDetails({
+        ...roomDetails,
+
+        images: [...roomDetails?.images, newImage.trim()],
+      });
+
+      setNewImage("");
+    }
+  };
+
+  // Function to remove image URL
+  const handleRemoveImage = (index: any) => {
+    const updatedImages = roomDetails?.images.filter((_, i) => i !== index);
+    setValue("images", updatedImages); // Update form state
+    setRoomDetails({ ...roomDetails, images: updatedImages });
   };
 
   const handleAddAmenity = () => {
@@ -183,37 +160,18 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     setRoomDetails({ ...roomDetails, amenities: updatedAmenities });
   };
 
-  // Function to add new image URL
-  const handleAddImage = () => {
-    if (newImage.trim() !== "") {
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      setValue("image", [...roomDetails?.image, newImage.trim()]); // Update form state
-      setRoomDetails({
-        ...roomDetails,
-        image: [...roomDetails?.image, newImage.trim()],
-      });
-      setNewImage("");
-    }
-  };
-
-  // Function to remove image URL
-  const handleRemoveImage = (index: any) => {
-    const updatedImages = roomDetails?.image.filter((_, i) => i !== index);
-    setValue("image", updatedImages); // Update form state
-    setRoomDetails({ ...roomDetails, image: updatedImages });
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger>Update</DialogTrigger>
+      <DialogTrigger>Create Meeting Room</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-[#4a53c0]">
-            Update Meeting Room
+          <DialogTitle className="text-[#557856]">
+            Create Meeting Room
           </DialogTitle>
           <DialogDescription className="">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-2 mt-4">
+              {/* Newly added: Handle multiple image URLs */}
+              <div className="mb-4 mt-4">
                 <label className="block mb-2">Image URL</label>
                 <div className="flex">
                   <Input
@@ -225,7 +183,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Button
                     type="button"
                     onClick={handleAddImage}
-                    className="ml-2 bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-white"
+                    className="ml-2 bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-white font-[500]"
                   >
                     Add
                   </Button>
@@ -235,7 +193,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <p className="text-red-500">{errors?.image?.message}</p>
                 )}
                 <ul className="">
-                  {roomDetails?.image?.map((image, index) => (
+                  {roomDetails?.images?.map((image, index) => (
                     <li
                       key={index}
                       className="flex justify-between items-center mt-2"
@@ -248,7 +206,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(index)}
-                        className="ml-2"
+                        className="ml-2 cursor-pointer"
                       >
                         <TiDelete className="text-3xl text-[#7AAC7B]" />
                       </button>
@@ -257,13 +215,8 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                 </ul>
               </div>
               <div className="mb-2">
-                <label className="block mb-1 mt-8">Name</label>
-                <Input
-                  type="text"
-                  {...register("name")}
-                  defaultValue={roomData?.data?.name}
-                  className="w-full"
-                />
+                <label className="block mb-2">Name</label>
+                <Input type="text" {...register("name")} className="w-full" />
                 {errors.name && (
                   // @ts-expect-error: Unreachable code error
                   <p className="text-red-500">{errors?.name?.message}</p>
@@ -275,7 +228,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Input
                     type="text"
                     {...register("roomNo")}
-                    defaultValue={roomData?.data?.roomNo}
                     className="w-full"
                   />
                   {errors.roomNo && (
@@ -288,7 +240,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Input
                     type="text"
                     {...register("floorNo")}
-                    defaultValue={roomData?.data?.floorNo}
                     className="w-full"
                   />
                   {errors.floorNo && (
@@ -303,7 +254,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Input
                     type="text"
                     {...register("capacity")}
-                    defaultValue={roomData?.data?.capacity}
                     className="w-full"
                   />
                   {errors.capacity && (
@@ -316,7 +266,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Input
                     type="text"
                     {...register("pricePerSlot")}
-                    defaultValue={roomData?.data?.pricePerSlot}
                     className="w-full"
                   />
                   {errors.pricePerSlot &&
@@ -328,7 +277,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-2">
                 <label className="block mb-2">Amenities</label>
                 <div className="flex">
                   <Input
@@ -340,7 +289,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                   <Button
                     type="button"
                     onClick={handleAddAmenity}
-                    className="ml-2  bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-white"
+                    className="ml-2 bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-white font-[500] "
                   >
                     Add
                   </Button>
@@ -351,7 +300,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                     Amenities must only contain alphabetic characters
                   </p>
                 )}
-                <ul className="mt-2">
+                <ul className="mt-1">
                   {roomDetails.amenities.map((amenity, index) => (
                     <li
                       key={index}
@@ -361,7 +310,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                       <button
                         type="button"
                         onClick={() => handleRemoveAmenity(index)}
-                        className="ml-2"
+                        className="ml-2 cursor-pointer"
                       >
                         <TiDelete className=" text-3xl  text-[#7AAC7B] " />
                       </button>
@@ -372,9 +321,9 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="btn btn-primary text-lg px-6 mt-4 py-3 bg-[#4a53c0] text-white font-semibold rounded-md hover:bg-[#4a53c0]/90"
+                  className="btn btn-primary text-lg px-6 mt-1 py-3 bg-[#4a53c0] text-[#072047] font-semibold rounded-md hover:bg-[#4a53c0]/90"
                 >
-                  Update Room
+                  Create Room
                 </button>
               </div>
             </form>
@@ -385,4 +334,4 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
   );
 };
 
-export default UpdateRoom;
+export default CreateRoom;
