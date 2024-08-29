@@ -14,6 +14,7 @@ import Checkout from "@/pages/checkout";
 import MyBooking from "@/pages/Mybooking";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Dashboard from "@/components/Dashboard/Dashboard";
+import AllRooms from "@/pages/admin/AllRooms";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Dashboard />,
+      },
+      {
+        path: "all-rooms",
+        element: <AllRooms />,
       },
     ],
   },
