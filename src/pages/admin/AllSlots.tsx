@@ -16,6 +16,7 @@ import {
   useDeleteSlotMutation,
   useGetAllSlotFromDbQuery,
 } from "@/redux/api/slot/slotApi";
+import UpdateSlot from "@/components/Dashboard/UpdateSlot/UpdateSlot";
 
 const AllSlots = () => {
   const [selectedSlotId, setSelectedSlotId] = useState(null);
@@ -36,8 +37,6 @@ const AllSlots = () => {
     );
   }
 
-  console.log(data);
-
   const handleUpdate = (slotId: any) => {
     setSelectedSlotId(slotId);
     setIsDialogOpen(true);
@@ -54,7 +53,7 @@ const AllSlots = () => {
     if (booked && !alertShown) {
       swal({
         title: "Delete Failed",
-        text: "You can't delete this slot as it has already been deleted.",
+        text: "You can't delete this slot as it has already been booked",
         icon: "error",
         //@ts-expect-error :'buttons' is generated error
         buttons: "Okay",
@@ -92,8 +91,6 @@ const AllSlots = () => {
         swal("Cancelled", "The slot is safe!", "info");
       }
     });
-
-    console.log(id, "del");
   }
 
   return (
@@ -156,15 +153,15 @@ const AllSlots = () => {
         </TableBody>
       </Table>
 
-      {/* {isDialogOpen && (
-          <UpdateSlot
-            isDialogOpen={isDialogOpen}
-            setIsDialogOpen={setIsDialogOpen}
-            slotId={selectedSlotId}
-          />
-        )}
-  
-        {createDialogOpen && (
+      {isDialogOpen && (
+        <UpdateSlot
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          slotId={selectedSlotId}
+        />
+      )}
+
+      {/* {createDialogOpen && (
           <CreateSlot
             isDialogOpen={createDialogOpen}
             setIsDialogOpen={setCreateDialogOpen}

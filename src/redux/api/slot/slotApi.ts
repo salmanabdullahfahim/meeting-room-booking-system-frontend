@@ -25,6 +25,16 @@ const slotApi = baseApi.injectEndpoints({
       providesTags: ["slots"],
     }),
 
+    getSingleSlot: builder.query({
+      query: (id) => {
+        return {
+          url: `/slots/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["slots"],
+    }),
+
     createSlot: builder.mutation({
       query: (slot) => {
         return {
@@ -37,11 +47,12 @@ const slotApi = baseApi.injectEndpoints({
     }),
 
     updateSlot: builder.mutation({
-      query: (slot) => {
+      query: (data) => {
+        console.log("sending data==>", data);
         return {
-          url: `/slots/${slot._id}`,
+          url: `/slots/${data?.sId}`,
           method: "PUT",
-          body: slot,
+          body: data,
         };
       },
       invalidatesTags: ["slots"],
@@ -62,6 +73,7 @@ const slotApi = baseApi.injectEndpoints({
 export const {
   useGetAvailableSlotsQuery,
   useGetAllSlotFromDbQuery,
+  useGetSingleSlotQuery,
   useCreateSlotMutation,
   useUpdateSlotMutation,
   useDeleteSlotMutation,
