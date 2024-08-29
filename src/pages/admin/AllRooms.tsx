@@ -16,6 +16,7 @@ import {
   useDeleteRoomMutation,
   useGetAllTypesRoomsQuery,
 } from "@/redux/api/room/roomApi";
+import UpdateRoom from "@/components/Dashboard/UpdateRoom/UpdateRoom";
 
 const AllRooms = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
@@ -138,7 +139,7 @@ const AllRooms = () => {
                 <TableCell>{room?.isDeleted ? "Yes" : "No"}</TableCell>
                 <TableCell className="flex gap-3 mt-3 items-center">
                   <button onClick={() => handleUpdate(room?._id)}>
-                    <FaPenToSquare className="text-[#557856] text-xl" />
+                    <FaPenToSquare className="text-[#4a53c0] text-xl" />
                   </button>
                   <button
                     onClick={() => handleDelete(room?._id, room?.isDeleted)}
@@ -151,14 +152,14 @@ const AllRooms = () => {
           })}
         </TableBody>
       </Table>
-      {/* {isDialogOpen && (
+      {isDialogOpen && (
         <UpdateRoom
           roomId={selectedRoomId}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
         />
       )}
-      {createDialogOpen && (
+      {/* {createDialogOpen && (
         <CreateRoom
           isDialogOpen={createDialogOpen}
           setIsDialogOpen={setCreateDialogOpen}
