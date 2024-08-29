@@ -106,7 +106,7 @@ const AllSlots = () => {
       </div>
       <Table className="mt-12">
         <TableHeader>
-          <TableRow className="border-2 border-[#557856]">
+          <TableRow className=" border-[3px] border-[#9697a1] rounded-full">
             <TableHead className="text-[#557856] font-medium text-base">
               Room Name
             </TableHead>
@@ -140,9 +140,9 @@ const AllSlots = () => {
               <TableCell>
                 <button
                   onClick={() => handleUpdate(slot?._id)}
-                  className="mr-2"
+                  className="mr-4"
                 >
-                  <FaPenToSquare className="text-[#557856] text-xl" />
+                  <FaPenToSquare className="text-[#4a53c0] text-xl" />
                 </button>
                 <button onClick={() => handleDelete(slot?._id, slot.isBooked)}>
                   <RiDeleteBack2Fill className="text-red-600 text-xl" />

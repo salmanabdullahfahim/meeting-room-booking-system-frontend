@@ -1,4 +1,4 @@
-import { BarChart, FolderKanban, DiamondPlus } from "lucide-react";
+import { BarChart, FolderKanban } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -79,17 +79,6 @@ export function Sidebar() {
                 <FolderKanban className="h-5 w-5" aria-hidden="true" />
                 <span className="mx-2 text-sm font-medium">All Slots</span>
               </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  `flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700 ${
-                    isActive ? "bg-gray-50 text-gray-700" : ""
-                  }`
-                }
-                to="/dashboard/create-slots"
-              >
-                <DiamondPlus className="h-5 w-5" aria-hidden="true" />
-                <span className="mx-2 text-sm font-medium">Create Slots</span>
-              </NavLink>
             </div>
             <div className="space-y-3 ">
               <label className="px-3 text-xs font-semibold uppercase text-white">
@@ -105,17 +94,6 @@ export function Sidebar() {
               >
                 <FolderKanban className="h-5 w-5" aria-hidden="true" />
                 <span className="mx-2 text-sm font-medium">All Bookings</span>
-              </NavLink>
-              <NavLink
-                className={({ isActive }) =>
-                  `flex transform items-center rounded-lg px-3 py-2 text-gray-200 transition-colors duration-300 hover:bg-gray-50 hover:text-gray-700 ${
-                    isActive ? "bg-gray-50 text-gray-700" : ""
-                  }`
-                }
-                to="/dashboard/create-action"
-              >
-                <DiamondPlus className="h-5 w-5" aria-hidden="true" />
-                <span className="mx-2 text-sm font-medium">Actions</span>
               </NavLink>
             </div>
           </nav>
