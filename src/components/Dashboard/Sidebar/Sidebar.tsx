@@ -18,7 +18,7 @@ export function Sidebar() {
         {!isSidebarOpen ? <GiHamburgerMenu /> : <RxCross2 />}
       </div>
       <aside
-        className={`flex h-screen  flex-col  border-r bg-[#242424] px-5 py-8 overflow-y-auto ${
+        className={`flex h-screen fixed  flex-col  border-r bg-[#242424] px-5 py-8 overflow-y-auto ${
           isSidebarOpen ? "block" : "hidden"
         }`}
       >
