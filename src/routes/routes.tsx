@@ -16,6 +16,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import Dashboard from "@/components/Dashboard/Dashboard";
 import AllRooms from "@/pages/admin/AllRooms";
 import AllSlots from "@/pages/admin/AllSlots";
+import AllBookings from "@/pages/admin/AllBookings";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "all-slots",
         element: <AllSlots />,
+      },
+      {
+        path: "all-bookings",
+        element: <AllBookings />,
       },
     ],
   },
