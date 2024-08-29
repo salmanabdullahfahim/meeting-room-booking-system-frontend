@@ -116,7 +116,7 @@ const AllRooms = () => {
             <TableHead className="font-medium text-base">Room No</TableHead>
             <TableHead className=" font-medium text-base">Capacity</TableHead>
             <TableHead className=" font-medium text-base">Price</TableHead>
-            <TableHead className="font-medium text-base">Delete</TableHead>
+            <TableHead className="font-medium text-base">Deleted</TableHead>
             <TableHead className="font-medium text-base">Action</TableHead>
           </TableRow>
         </TableHeader>
