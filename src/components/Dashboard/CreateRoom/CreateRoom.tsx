@@ -115,7 +115,7 @@ const CreateRoom = ({ isDialogOpen, setIsDialogOpen }: any) => {
         toast.error(res?.error.data.message);
       }
     } catch (err: any) {
-      toast.error("something went wrong.");
+      console.log(err);
     }
   };
 
@@ -188,9 +188,9 @@ const CreateRoom = ({ isDialogOpen, setIsDialogOpen }: any) => {
                     Add
                   </Button>
                 </div>
-                {errors.image && (
+                {errors.images && (
                   // @ts-expect-error: Unreachable code error
-                  <p className="text-red-500">{errors?.image?.message}</p>
+                  <p className="text-red-500">{errors?.images?.message}</p>
                 )}
                 <ul className="">
                   {roomDetails?.images?.map((image, index) => (

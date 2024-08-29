@@ -23,7 +23,7 @@ import {
 import toast from "react-hot-toast";
 
 const updateMeetingRoomValidationSchema = z.object({
-  image: z.array(z.string().url("Each image must be a valid URL")).optional(),
+  images: z.array(z.string().url("Each image must be a valid URL")).optional(),
   name: z.string().min(1, "Name is required"),
   roomNo: z.preprocess((val) => Number(val), z.number().optional()),
   floorNo: z.preprocess((val) => Number(val), z.number().optional()),
@@ -42,7 +42,6 @@ const updateMeetingRoomValidationSchema = z.object({
 });
 
 const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
-  console.log(roomId, "roomId");
   const [alertShown, setAlertShown] = useState(false);
 
   const [updateRoom] = useUpdateRoomMutation();
@@ -64,7 +63,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     capacity: string;
     pricePerSlot: string;
     amenities: string[];
-    image: string[];
+    images: string[];
   }>({
     name: "",
     roomNo: "",
@@ -72,7 +71,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     capacity: "",
     pricePerSlot: "",
     amenities: [],
-    image: [],
+    images: [],
   });
 
   const [newAmenity, setNewAmenity] = useState("");
@@ -83,8 +82,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
 
     isLoading,
   } = useGetSingleRoomQuery(roomId);
-
-  console.log(roomData);
 
   if (isLoading) {
     return (
@@ -113,8 +110,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
     return;
   }
 
-  console.log(errors?.amenities);
-
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     // Reset form after submission
@@ -127,7 +122,7 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
       capacity: "",
       pricePerSlot: "",
       amenities: [],
-      image: [],
+      images: [],
     });
 
     const updatedData = {
@@ -139,13 +134,13 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
             ? [...roomData.data.amenities, newAmenity]
             : [...(roomData?.data?.amenities || [])],
         // Handle images
-        image:
-          newImage?.length > 0 && roomData?.data?.image?.length > 0
-            ? [...roomData.data.image, newImage]
-            : [...(roomData?.data?.image || [])],
+        images:
+          newImage?.length > 0 && roomData?.data?.images?.length > 0
+            ? [...roomData.data.images, newImage]
+            : [...(roomData?.data?.images || [])],
       },
     };
-    console.log(updatedData);
+    console.log("updated", updatedData);
     try {
       //call addAcademicSemester for data saving
       const res = await updateRoom(updatedData).unwrap();
@@ -157,9 +152,8 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
       if (res?.error) {
         toast.error(res?.message);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("something went wrong.");
+    } catch (err: any) {
+      toast.error(err);
     }
   };
 
@@ -171,7 +165,6 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
 
         amenities: [...roomDetails.amenities, newAmenity.trim()],
       });
-      setNewAmenity("");
     }
   };
 
@@ -187,20 +180,19 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
   const handleAddImage = () => {
     if (newImage.trim() !== "") {
       // eslint-disable-next-line no-unsafe-optional-chaining
-      setValue("image", [...roomDetails?.image, newImage.trim()]); // Update form state
+      setValue("images", [...roomDetails?.images, newImage.trim()]); // Update form state
       setRoomDetails({
         ...roomDetails,
-        image: [...roomDetails?.image, newImage.trim()],
+        images: [...roomDetails?.images, newImage.trim()],
       });
-      setNewImage("");
     }
   };
 
   // Function to remove image URL
   const handleRemoveImage = (index: any) => {
-    const updatedImages = roomDetails?.image.filter((_, i) => i !== index);
-    setValue("image", updatedImages); // Update form state
-    setRoomDetails({ ...roomDetails, image: updatedImages });
+    const updatedImages = roomDetails?.images.filter((_, i) => i !== index);
+    setValue("images", updatedImages); // Update form state
+    setRoomDetails({ ...roomDetails, images: updatedImages });
   };
 
   return (
@@ -230,12 +222,12 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
                     Add
                   </Button>
                 </div>
-                {errors.image && (
+                {errors.images && (
                   // @ts-expect-error: Unreachable code error
-                  <p className="text-red-500">{errors?.image?.message}</p>
+                  <p className="text-red-500">{errors?.images?.message}</p>
                 )}
                 <ul className="">
-                  {roomDetails?.image?.map((image, index) => (
+                  {roomDetails?.images?.map((image, index) => (
                     <li
                       key={index}
                       className="flex justify-between items-center mt-2"
