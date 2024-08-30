@@ -128,17 +128,7 @@ const Checkout = () => {
             </div>
           )}
 
-          <div className="bg-[#efeff3] md:w-2/12 p-2  mt-5 rounded-lg mb-4">
-            <p>
-              <strong>Payment Method:</strong>
-            </p>
-            <select className="border mt-2 p-2 rounded-lg w-full">
-              <option value="cod">Cash on Delivery</option>
-              <option value="aamarpay">Aamar Pay</option>
-            </select>
-          </div>
-
-          {/* user infrmation */}
+          {/* user infomation */}
           <h2 className="text-xl font-semibold mt-6 mb-4">Your Details</h2>
           {userData ? (
             <div className="bg-[#efeff3] p-4 rounded-lg">
@@ -172,8 +162,6 @@ const Checkout = () => {
           There is no booking history
         </h2>
       )}
-
-      {/* Shadcn UI Dialog */}
     </div>
   );
 };
