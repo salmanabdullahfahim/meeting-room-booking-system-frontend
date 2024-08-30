@@ -6,21 +6,51 @@ import { CardSkeleton } from "@/components/Skeleton/CardSkeleton";
 import { useGetAllRoomsQuery } from "@/redux/api/room/roomApi";
 import { TRoom } from "@/utils/Types/RoomType";
 import { RoomCard } from "@/components/Room/RoomCard";
+import { useMemo, useState } from "react";
+import useDebounce from "@/utils/Debounce/useDebunce";
 
 const AllRoomsPage = () => {
-  const { data, isLoading } = useGetAllRoomsQuery("");
+  const { data, isLoading } = useGetAllRoomsQuery(undefined);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedSearchQuery = useDebounce(searchTerm, 700);
+
+  const availableRooms = data?.data;
+
+  const filteredRooms = useMemo(() => {
+    let rooms = availableRooms || [];
+
+    if (debouncedSearchQuery) {
+      rooms = rooms.filter(
+        (room: TRoom) =>
+          room.name
+            .toLowerCase()
+            .includes(debouncedSearchQuery.toLowerCase()) ||
+          room.amenities.some(
+            (amenity: string) =>
+              amenity
+                .toLowerCase()
+                .includes(debouncedSearchQuery.toLowerCase()) ||
+              room.pricePerSlot.toString().includes(debouncedSearchQuery) ||
+              room.roomNo.toString().includes(debouncedSearchQuery)
+          )
+      );
+    }
+
+    return rooms;
+  }, [availableRooms, debouncedSearchQuery]);
 
   return (
     <div>
       {/* Search box */}
-      <div className="w-3/5 hidden md:flex items-center gap-x-2 border-[1px] border-darkText/90 rounded-full px-4 py-1.5 focus-within:border-gray-600 group mx-auto mt-8">
+      <div className="w-3/5 hidden md:flex items-center gap-x-2 border-[1px] border-darkText/90 rounded-full px-4 py-1.5 border-gray-600 group mx-auto mt-8">
         <BsSearch className="text-gray-500 group-focus-within:text-darkText duration-200" />
         <input
           type="text"
-          placeholder="Search any Products"
+          placeholder="Search any Meeting Room"
           className="placeholder:text-sm flex-1 outline-none"
-          //   value={searchTerm}
-          //   onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
@@ -72,7 +102,7 @@ const AllRoomsPage = () => {
         </div>
       ) : (
         <div className="mx-12 grid items-center justify-center space-y-4 px-2 py-8 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-4">
-          {data?.data.map((room: TRoom) => (
+          {filteredRooms.map((room: TRoom) => (
             <RoomCard key={room._id} room={room} />
           ))}
         </div>
