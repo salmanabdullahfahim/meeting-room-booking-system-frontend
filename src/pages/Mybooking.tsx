@@ -67,7 +67,7 @@ const MyBooking = () => {
                 Payment Status:{" "}
                 <span
                   className={`${
-                    booking.paymentStatus === "Paid"
+                    booking.paymentStatus === "paid"
                       ? "text-green-600"
                       : "text-red-600"
                   }`}
