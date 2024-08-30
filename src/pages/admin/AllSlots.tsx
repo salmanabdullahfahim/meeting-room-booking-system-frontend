@@ -17,6 +17,7 @@ import {
   useGetAllSlotFromDbQuery,
 } from "@/redux/api/slot/slotApi";
 import UpdateSlot from "@/components/Dashboard/UpdateSlot/UpdateSlot";
+import CreateSlot from "@/components/Dashboard/CreateSlot/CreateSlot";
 
 const AllSlots = () => {
   const [selectedSlotId, setSelectedSlotId] = useState(null);
@@ -161,12 +162,12 @@ const AllSlots = () => {
         />
       )}
 
-      {/* {createDialogOpen && (
-          <CreateSlot
-            isDialogOpen={createDialogOpen}
-            setIsDialogOpen={setCreateDialogOpen}
-          />
-        )} */}
+      {createDialogOpen && (
+        <CreateSlot
+          isDialogOpen={createDialogOpen}
+          setIsDialogOpen={setCreateDialogOpen}
+        />
+      )}
     </div>
   );
 };
