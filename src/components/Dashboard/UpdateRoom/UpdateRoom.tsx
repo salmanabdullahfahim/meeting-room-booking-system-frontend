@@ -140,11 +140,10 @@ const UpdateRoom = ({ roomId, isDialogOpen, setIsDialogOpen }: any) => {
             : [...(roomData?.data?.images || [])],
       },
     };
-    console.log("updated", updatedData);
+
     try {
       //call addAcademicSemester for data saving
       const res = await updateRoom(updatedData).unwrap();
-      console.log(res);
 
       if (res?.success) {
         toast.success(res?.message);

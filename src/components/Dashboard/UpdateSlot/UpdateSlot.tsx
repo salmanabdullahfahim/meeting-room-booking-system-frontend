@@ -81,8 +81,6 @@ const UpdateSlot = ({ slotId, isDialogOpen, setIsDialogOpen }: any) => {
   // Filter and map the data
   const availableRooms = RoomData?.data.filter((room: any) => !room.isDeleted);
 
-  // console.log(availableRooms);
-
   if (slotData?.data?.isBooked && !alertShown) {
     // Show the alert only if it hasn't been shown before
     swal({
@@ -104,21 +102,19 @@ const UpdateSlot = ({ slotId, isDialogOpen, setIsDialogOpen }: any) => {
 
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("Form data:", data);
     // Reset form after submission
     reset();
 
     // Safely create the updatedData object
     const updatedData = {
       data,
-      // room: data?.room || slotData?.data?.room,
+
       sId: slotId,
     };
-    // console.log(updatedData);
+
     try {
       //call addAcademicSemester for data saving
       const res = await updateSlot(updatedData).unwrap();
-      console.log(res);
 
       if (res?.success) {
         toast.success(res?.message);

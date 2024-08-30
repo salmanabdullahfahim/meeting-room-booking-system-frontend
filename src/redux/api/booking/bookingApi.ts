@@ -4,7 +4,6 @@ const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addBookings: builder.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: "/bookings",
           method: "POST",
@@ -33,7 +32,6 @@ const bookingApi = baseApi.injectEndpoints({
     }),
     deleteBookings: builder.mutation({
       query: (data) => {
-        console.log("sending bookings==>", data);
         return {
           url: `bookings/${data?.rId}`,
           method: "DELETE",
@@ -43,7 +41,6 @@ const bookingApi = baseApi.injectEndpoints({
     }),
     updateBookings: builder.mutation({
       query: (data) => {
-        console.log("sending bookings==>", data);
         return {
           url: `bookings/${data?.bId}`,
           method: "PUT",

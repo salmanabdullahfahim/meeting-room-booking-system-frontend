@@ -48,8 +48,6 @@ const AllSlots = () => {
   };
 
   function handleDelete(id: string, booked: boolean) {
-    console.log(booked);
-
     //deleted slot will not be delete twice
     if (booked && !alertShown) {
       swal({

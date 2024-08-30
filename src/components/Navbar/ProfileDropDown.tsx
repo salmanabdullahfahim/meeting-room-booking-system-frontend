@@ -17,8 +17,6 @@ interface CustomJwtPayload extends JwtPayload {
   role?: string;
 }
 const ProfileDropDown = ({ user }: { user: CustomJwtPayload }) => {
-  console.log(user);
-
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {

@@ -36,7 +36,6 @@ const Checkout = () => {
   const { data: singleRoom, isLoading } = useGetSingleRoomQuery(roomId, {
     pollingInterval: 1000,
   });
-  console.log("single room inside checkout", singleRoom);
 
   //  available slots
   const { data: slotData, isLoading: isSlotLoading } =
@@ -44,8 +43,6 @@ const Checkout = () => {
       date: bookedData?.bookingData?.date,
       roomId,
     });
-
-  console.log("slotdata", slotData);
 
   if (isSlotLoading) {
     return (
@@ -57,7 +54,6 @@ const Checkout = () => {
 
   // Filter and map the data
   const availableSlots = slotData?.data.filter((room: any) => !room.isBooked);
-  console.log(availableSlots);
 
   const bookedSlots = availableSlots
     ?.filter((slot: any) => bookedData?.bookingData?.slots?.includes(slot._id))
@@ -66,19 +62,13 @@ const Checkout = () => {
       endTime: slot.endTime,
     }));
 
-  console.log(bookedData?.bookingData?.date, bookedSlots, bookedData);
-
   const bookingDate = bookedData?.bookingData?.date || "";
 
   const handleConfirmBooking = async () => {
     try {
-      // console.log(bookedData);
       const data = bookedData?.bookingData;
 
-      console.log(data);
-
       const res = await addBookings(data).unwrap();
-      console.log(res);
 
       if (res?.success) {
         setOpenDialog(true);

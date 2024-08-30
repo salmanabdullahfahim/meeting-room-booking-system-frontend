@@ -58,16 +58,12 @@ const CreateSlot = ({ isDialogOpen, setIsDialogOpen }: any) => {
   // Filter and map the data
   const availableRooms = allRoom?.data.filter((room: any) => !room.isDeleted);
 
-  console.log(availableRooms);
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("Form data:", data);
     // Reset form after submission
     reset();
 
     try {
       const res = await createSlot(data).unwrap();
-      console.log(res);
 
       if (res?.success) {
         swal("Slot added", "", "success");

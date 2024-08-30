@@ -46,8 +46,6 @@ const AllBookings = () => {
       bId: bookingId,
     };
 
-    console.log(data);
-
     try {
       await updateBooking(data).unwrap();
       toast.success("Booking approved successfully");

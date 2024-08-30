@@ -91,7 +91,6 @@ const CreateRoom = ({ isDialogOpen, setIsDialogOpen }: any) => {
 
   // Function to handle form submission
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("Form data:", data);
     // Reset form after submission
     reset();
 

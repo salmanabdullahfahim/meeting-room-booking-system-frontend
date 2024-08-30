@@ -50,8 +50,6 @@ const AllRooms = () => {
   };
 
   function handleDelete(id: string, deleted: boolean) {
-    console.log(deleted);
-
     //deleted room will not be delete twice
     if (deleted && !alertShown) {
       swal({

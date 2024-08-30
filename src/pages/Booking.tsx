@@ -41,9 +41,6 @@ const Booking = () => {
     }
   }, [selectedDate, roomId, refetch]);
 
-  console.log("slotdata", slotData);
-  console.log(selectedDate);
-
   const handleSlotSelection = (slotId: any) => {
     setSelectedSlots((prevSlots: any) =>
       prevSlots.includes(slotId)
@@ -65,7 +62,6 @@ const Booking = () => {
   };
 
   if (isLoading) {
-    console.log("loading");
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#7b82ed]"></div>
