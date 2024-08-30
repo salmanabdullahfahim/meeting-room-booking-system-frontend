@@ -89,7 +89,9 @@ const Checkout = () => {
             Booking <span className="text-headerText"> Summary</span>
           </h2>
           {isLoading ? (
-            <p>Loading...</p>
+            <div className="w-full flex justify-center items-center h-screen">
+              <ScaleLoader color="#4a53c0" />
+            </div>
           ) : (
             <div>
               <img
