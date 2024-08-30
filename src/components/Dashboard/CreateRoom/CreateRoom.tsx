@@ -320,7 +320,7 @@ const CreateRoom = ({ isDialogOpen, setIsDialogOpen }: any) => {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  className="btn btn-primary text-lg px-6 mt-1 py-3 bg-[#4a53c0] text-[#072047] font-semibold rounded-md hover:bg-[#4a53c0]/90"
+                  className="btn btn-primary text-lg px-6 mt-1 py-3 bg-[#4a53c0] text-white font-semibold rounded-md hover:bg-[#4a53c0]/90"
                 >
                   Create Room
                 </button>

@@ -102,7 +102,7 @@ const AllRooms = () => {
           onClick={() => handleAdd()}
           className="btn btn-primary text-lg px-4 mt-4 py-2 bg-[#4a53c0] text-white font-medium rounded-md hover:bg-[#4a53c0]/90"
         >
-          Add Room
+          Create Room
         </button>
       </div>
       <Table className="mt-12">
