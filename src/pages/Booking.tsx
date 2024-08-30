@@ -69,13 +69,11 @@ const Booking = () => {
     );
   }
   return (
-    <div className="container mt-40 md:mt-0 mx-auto px-4 py-8">
-      <h2 className="text-3xl mb-2 font-medium tracking-wider text-center">
-        Book Your Meeting Room
+    <div className="container mt-40 md:mt-0 md:mb-12 mx-auto px-4 py-8">
+      <h2 className="text-3xl  md:mt-8 mb-8 font-bold text-center tracking-wider">
+        {" "}
+        Book Your Meeting <span className="text-headerText"> Room</span>
       </h2>
-      <div className="flex justify-center">
-        <div className="w-20 text-center rounded-md h-[5px] bg-[#7b82ed]"></div>
-      </div>
 
       <div className="border mt-5 border-[#7b82ed] p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Select Booking Date</h2>

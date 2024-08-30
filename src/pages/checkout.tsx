@@ -91,16 +91,13 @@ const Checkout = () => {
     (singleRoom?.data.pricePerSlot || 0);
 
   return (
-    <div className="container mx-auto mt-40 md:mt-0 px-4 py-8">
+    <div className="container mx-auto mt-40 md:mt-0 md:mb-12 px-4 py-8">
       {bookedData?.bookingData ? (
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-3xl mb-2 font-medium tracking-widest text-center">
-            Booking Summary
+          <h2 className="text-3xl  md:mt-4 mb-12 font-bold text-center tracking-wider">
+            {" "}
+            Booking <span className="text-headerText"> Summary</span>
           </h2>
-          {/* underline */}
-          <div className="flex mb-7  justify-center">
-            <div className="w-20 text-center rounded-md  h-[5px] bg-[#7b82ed]"></div>
-          </div>
           {isLoading ? (
             <p>Loading...</p>
           ) : (
