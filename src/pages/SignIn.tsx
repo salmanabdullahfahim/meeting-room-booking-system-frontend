@@ -49,12 +49,14 @@ export function SignIn() {
 
       // Get the 'from' location from state or default to homepage
 
+      //@ts-expect-error
       const from = location.state?.from?.pathname || "/";
 
       // Navigate to the intended page or home page
       navigate(from, { replace: true });
     } catch (err) {
       console.error("Failed to sign in:", err);
+      //@ts-expect-error
       toast.error(err?.data?.message);
     }
   };

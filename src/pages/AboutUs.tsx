@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { FaAward, FaGraduationCap, FaRibbon, FaTrophy } from "react-icons/fa";
+import { FaAward, FaGraduationCap } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Teams from "../components/Teams/Teams";
 
