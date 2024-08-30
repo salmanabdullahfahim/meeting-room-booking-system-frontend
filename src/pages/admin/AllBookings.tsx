@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import swal from "sweetalert";
 
@@ -33,7 +34,7 @@ const AllBookings = () => {
   if (isLoading) {
     return (
       <div className="w-full flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#557856]"></div>
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }
@@ -42,7 +43,7 @@ const AllBookings = () => {
     const data = {
       data: {
         isConfirmed: "confirmed",
-        paymentStatus: "Paid",
+        paymentStatus: "paid",
       },
       bId: bookingId,
     };

@@ -11,7 +11,7 @@ import { RiDeleteBack2Fill } from "react-icons/ri";
 import { FaPenToSquare } from "react-icons/fa6";
 import { useState } from "react";
 import swal from "sweetalert";
-
+import ScaleLoader from "react-spinners/ScaleLoader";
 import {
   useDeleteSlotMutation,
   useGetAllSlotFromDbQuery,
@@ -33,7 +33,7 @@ const AllSlots = () => {
   if (isLoading) {
     return (
       <div className=" w-full flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#557856]"></div>
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }
