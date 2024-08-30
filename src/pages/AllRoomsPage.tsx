@@ -1,8 +1,8 @@
 import { BsSearch } from "react-icons/bs";
 import { CardSkeleton } from "@/components/Skeleton/CardSkeleton";
 
-// import { RxCross2 } from "react-icons/rx";
-// import toast from "react-hot-toast";
+import { RxCross2 } from "react-icons/rx";
+import toast from "react-hot-toast";
 import { useGetAllRoomsQuery } from "@/redux/api/room/roomApi";
 import { TRoom } from "@/utils/Types/RoomType";
 import { RoomCard } from "@/components/Room/RoomCard";
@@ -11,7 +11,12 @@ import useDebounce from "@/utils/Debounce/useDebunce";
 
 const AllRoomsPage = () => {
   const { data, isLoading } = useGetAllRoomsQuery(undefined);
+
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCapacityRange, setSelectedCapacityRange] =
+    useState<string>("");
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string>("");
+  const [sortOption, setSortOption] = useState<string>("");
 
   const debouncedSearchQuery = useDebounce(searchTerm, 700);
 
@@ -37,8 +42,38 @@ const AllRoomsPage = () => {
       );
     }
 
+    if (selectedCapacityRange) {
+      rooms = rooms.filter((room: any) => {
+        const [min, max] = selectedCapacityRange.split("-").map(Number);
+        return room.capacity >= min && room.capacity <= max;
+      });
+    }
+
+    if (selectedPriceRange) {
+      rooms = rooms.filter((room: any) => {
+        const [minPrice, maxPrice] = selectedPriceRange.split("-").map(Number);
+        return room.pricePerSlot >= minPrice && room.pricePerSlot <= maxPrice;
+      });
+    }
+
+    if (sortOption === "priceLowToHigh") {
+      rooms = [...rooms].sort(
+        (a: any, b: any) => a.pricePerSlot - b.pricePerSlot
+      );
+    } else if (sortOption === "priceHighToLow") {
+      rooms = [...rooms].sort(
+        (a: any, b: any) => b.pricePerSlot - a.pricePerSlot
+      );
+    }
+
     return rooms;
-  }, [availableRooms, debouncedSearchQuery]);
+  }, [
+    availableRooms,
+    debouncedSearchQuery,
+    selectedCapacityRange,
+    selectedPriceRange,
+    sortOption,
+  ]);
 
   return (
     <div>
@@ -55,36 +90,61 @@ const AllRoomsPage = () => {
       </div>
 
       <div className="flex items-center justify-between">
-        {/* filter by price range */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-x-2 mt-3 md:mt-8 ml-6 md:ml-12">
+        {/* filter by price range and capacity */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-x-2 mt-3 md:mt-12 ml-6 md:ml-12">
           <p className="font-semibold whitespace-nowrap">Filter By</p>
 
-          {/* <FilterByPriceProduct onFilterChange={setFilterPrice} />
+          <select
+            value={selectedCapacityRange}
+            onChange={(e) => setSelectedCapacityRange(e.target.value)}
+            className="p-2 border rounded-md mb-2 md:mb-0"
+          >
+            <option value="">Select Capacity</option>
+            <option value="10-50">10-50</option>
+            <option value="60-90">60-90</option>
+            <option value="100-500">100-500</option>
+          </select>
+
+          <select
+            value={selectedPriceRange}
+            onChange={(e) => setSelectedPriceRange(e.target.value)}
+            className="p-2 border rounded-md mb-2 md:mb-0"
+          >
+            <option value="">Select Price Range</option>
+            <option value="0-500">$0 - $500</option>
+            <option value="500-900">$500 - $900</option>
+            <option value="1000-2000">$1000 - $2000</option>
+          </select>
+
+          {/* clear filter and sort */}
           <button
-            className="border hover:border-black px-4 py-2 mt-3 rounded-lg  text-sm font-medium flex items-center gap-x-2 whitespace-nowrap"
+            className="border hover:border-black px-4 py-2  rounded-lg  text-sm font-medium flex items-center gap-x-2 whitespace-nowrap"
             onClick={() => {
               setSearchTerm("");
-              setFilterPrice("");
-              setSort("");
+              setSelectedCapacityRange("");
+              setSelectedPriceRange("");
+              setSortOption("");
 
-              toast.success("Filter cleared!", {
-                duration: 1500,
-                style: {
-                  background: "#333",
-                  color: "#fff",
-                },
-              });
+              toast.success("Filter cleared!");
             }}
           >
             <RxCross2 />
             Reset Filter
-          </button> */}
+          </button>
         </div>
 
         {/* sort by price */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-y-0 justify-end gap-x-2 mt-3 md:mt-8 mr-6 md:mr-12">
-          <p className="font-semibold">Sort By Price</p>
-          {/* <SortByPrice setSort={setSort} /> */}
+          <p className="font-semibold">Sort By</p>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="p-2 border rounded-md mb-2 md:mb-0"
+          >
+            <option value="">Price</option>
+            <option value="priceLowToHigh">Price: Low to High</option>
+            <option value="priceHighToLow">Price: High to Low</option>
+          </select>
         </div>
       </div>
 
