@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-
+import ScaleLoader from "react-spinners/ScaleLoader";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -64,7 +64,7 @@ const Booking = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#7b82ed]"></div>
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }

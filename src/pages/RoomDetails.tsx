@@ -1,10 +1,19 @@
 import { useGetSingleRoomQuery } from "@/redux/api/room/roomApi";
 import { Link, useParams } from "react-router-dom";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 export function RoomDetails() {
   const { id } = useParams();
 
-  const { data } = useGetSingleRoomQuery(id as string);
+  const { data, isLoading } = useGetSingleRoomQuery(id as string);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ScaleLoader color="#4a53c0" />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 md:px-8 2xl:px-16">

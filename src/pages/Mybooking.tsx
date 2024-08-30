@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useMyBookingsQuery } from "@/redux/api/booking/bookingApi";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const MyBooking = () => {
   const { data, isLoading } = useMyBookingsQuery(undefined, {
@@ -10,7 +11,7 @@ const MyBooking = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#557856]"></div>
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }

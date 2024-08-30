@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 import { FaRegMoneyBillAlt } from "react-icons/fa";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { IoIosTime } from "react-icons/io";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
@@ -47,7 +48,7 @@ const Checkout = () => {
   if (isSlotLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#4a53c0]"></div>
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }
