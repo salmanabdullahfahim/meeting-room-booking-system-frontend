@@ -58,7 +58,11 @@ const ServiceAdds: React.FC = () => {
               </h2>
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row justify-center gap-x-7 gap-y-3">
+          <div
+            className="flex flex-col lg:flex-row justify-center gap-x-7 gap-y-3"
+            data-aos="fade-up"
+            data-aos-duration="1500"
+          >
             {incentives.map((item, i) => (
               <div key={i}>
                 <IncentiveItem item={item} />

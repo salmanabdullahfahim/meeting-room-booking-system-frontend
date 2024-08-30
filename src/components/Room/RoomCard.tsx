@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 
 export function RoomCard({ room }: { room: TRoom }) {
   return (
-    <div className="rounded-md border">
+    <div
+      className="rounded-md border"
+      data-aos="fade-up"
+      data-aos-duration="1500"
+    >
       <img
         src={room.images[0]}
         alt={room.name}

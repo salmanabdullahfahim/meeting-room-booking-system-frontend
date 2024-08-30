@@ -3,6 +3,7 @@ import { useGetAllRoomsQuery } from "@/redux/api/room/roomApi";
 import { TRoom } from "@/utils/Types/RoomType";
 import { Link } from "react-router-dom";
 import { RoomCard } from "../Room/RoomCard";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const FeaturedRoom = () => {
   const { data, isLoading } = useGetAllRoomsQuery(undefined);
@@ -15,7 +16,9 @@ const FeaturedRoom = () => {
 
       <div className=" mx-12 grid items-center justify-center space-y-4 px-2 py-10 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-4">
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="w-full flex justify-center items-center">
+            <ScaleLoader color="#4a53c0" />
+          </div>
         ) : (
           data?.data
             .slice(0, 6)
