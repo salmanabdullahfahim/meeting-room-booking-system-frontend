@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-
+import ScaleLoader from "react-spinners/ScaleLoader";
 import swal from "sweetalert";
 import {
   Dialog,
@@ -49,8 +49,8 @@ const CreateSlot = ({ isDialogOpen, setIsDialogOpen }: any) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#557856]"></div>
+      <div className="w-full flex justify-center items-center h-screen">
+        <ScaleLoader color="#4a53c0" />
       </div>
     );
   }
