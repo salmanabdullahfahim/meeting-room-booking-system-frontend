@@ -154,10 +154,10 @@ const AllRoomsPage = () => {
             <CardSkeleton key={index} />
           ))}
         </div>
-      ) : data?.data.length === 0 ? (
+      ) : filteredRooms.length === 0 ? (
         <div className="flex flex-col gap-y-6 items-center justify-center bg-white h-96 px-4">
           <p className="border-[1px] border-darkText w-3/4 p-2 text-center rounded-md font-semibold">
-            No product found
+            No Rooms found
           </p>
         </div>
       ) : (
