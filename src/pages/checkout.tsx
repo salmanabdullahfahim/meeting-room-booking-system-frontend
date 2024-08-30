@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useAppSelector } from "@/redux/hooks";
 
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -10,11 +8,10 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import { IoIosTime } from "react-icons/io";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 
-import { useState } from "react";
 import { useAddBookingsMutation } from "@/redux/api/booking/bookingApi";
 import { useGetUserByEmailQuery } from "@/redux/api/auth/authApi";
 import { useGetSingleRoomQuery } from "@/redux/api/room/roomApi";
-import { clearBookingData } from "@/redux/features/bookingSlice";
+
 import { useGetAvailableSlotsQuery } from "@/redux/api/slot/slotApi";
 
 type Slot = {
@@ -24,10 +21,8 @@ type Slot = {
 
 const Checkout = () => {
   const bookedData = useAppSelector((state) => state.booking);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [addBookings] = useAddBookingsMutation();
 
-  const dispatch = useAppDispatch();
+  const [addBookings] = useAddBookingsMutation();
 
   const user = useAppSelector((state) => state.auth.user);
   const { data: userData } = useGetUserByEmailQuery(user?.email);
@@ -63,8 +58,6 @@ const Checkout = () => {
       endTime: slot.endTime,
     }));
 
-  const bookingDate = bookedData?.bookingData?.date || "";
-
   const handleConfirmBooking = async () => {
     try {
       const data = bookedData?.bookingData;
@@ -72,17 +65,13 @@ const Checkout = () => {
       const res = await addBookings(data).unwrap();
 
       if (res?.success) {
-        setOpenDialog(true);
+        // setOpenDialog(true);
+        window.location.href = res.data.payment_url;
       }
     } catch (error) {
       // Handle error, e.g., show an error message
       console.error("Booking failed:", error);
     }
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    dispatch(clearBookingData());
   };
 
   // Calculate the total cost
@@ -174,7 +163,7 @@ const Checkout = () => {
               onClick={handleConfirmBooking}
               className="bg-[#4a53c0] mt-5 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-[#5761ca] transition "
             >
-              Confirm Booking
+              Proceed to Payment
             </button>
           </div>
         </div>
@@ -185,29 +174,6 @@ const Checkout = () => {
       )}
 
       {/* Shadcn UI Dialog */}
-      <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-        {/* <DialogTitle>Booking Confirmation</DialogTitle> */}
-        <DialogContent>
-          <p>
-            "Your slot{bookedSlots?.length > 1 ? "s" : ""} for
-            {singleRoom?.data.name} on {bookingDate} at
-            {bookedSlots.map((slot: Slot, index: number) => (
-              <span key={index}>
-                {slot.startTime} - {slot.endTime}
-                {index < bookedSlots?.length - 1 ? ", " : ""}
-              </span>
-            ))}
-            has been successfully booked. Thank you for choosing us!"
-            <br />
-            <button
-              className="px-3 mt-1 bg-[#4a53c0] text-white py-1 rounded-2xl "
-              onClick={handleCloseDialog}
-            >
-              Close
-            </button>
-          </p>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

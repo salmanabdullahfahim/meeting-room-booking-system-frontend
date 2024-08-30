@@ -63,6 +63,18 @@ const MyBooking = () => {
                   {booking.isConfirmed}
                 </span>
               </p>
+              <p className={`mt-4 text-lg font-bold`}>
+                Payment Status:{" "}
+                <span
+                  className={`${
+                    booking.paymentStatus === "Paid"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
+                >
+                  {booking.paymentStatus}
+                </span>
+              </p>
             </div>
           </div>
         ))}

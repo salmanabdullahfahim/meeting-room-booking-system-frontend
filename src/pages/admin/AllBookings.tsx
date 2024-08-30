@@ -42,6 +42,7 @@ const AllBookings = () => {
     const data = {
       data: {
         isConfirmed: "confirmed",
+        paymentStatus: "Paid",
       },
       bId: bookingId,
     };
