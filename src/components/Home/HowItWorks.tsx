@@ -30,22 +30,19 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <div className="py-16 md:mt-12  px-12 ">
-      <h2 className="text-3xl mb-2  font-medium tracking-widest text-center">
-        HOW IT WORKS
+    <div className="py-16 md:mt-8  px-12">
+      <h2 className="text-3xl  md:mt-6 mb-2 font-bold text-center tracking-wider">
+        {" "}
+        HOW IT <span className="text-headerText"> WORKS</span>
       </h2>
-      {/* underline */}
-      <div className="flex justify-center">
-        <div className="w-20 text-center rounded-md  h-[5px] bg-[#7b82ed]"></div>
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
         {steps.map((step, index) => (
           <div
             key={index}
             className="flex bg-gray-100 p-5 rounded-xl flex-col items-center"
           >
-            <div className="mb-4 text-[#7b82ed]">{step.icon}</div>
-            <h3 className="text-xl font-semibold text-[#7b82ed]">
+            <div className="mb-4">{step.icon}</div>
+            <h3 className="text-xl font-semibold text-[#4a53c0]">
               {step.title}
             </h3>
             <p className="text-center text-gray-600 mt-2">{step.description}</p>

@@ -68,11 +68,11 @@ TeamMemberItem.propTypes = {
 
 const Teams: React.FC = () => {
   return (
-    <section className="ezy__team1 light py-14 md:py-18 bg-white text-zinc-900">
+    <section className="ezy__team1 light py-14 md:py-18 bg-white text-zinc-900 mt-6 ">
       <div className="container px-4 mx-auto">
         <div className="flex justify-center mb-6 md:mb-12">
           <div className="max-w-lg text-center">
-            <h2 className="text-3xl leading-none font-bold mb-2">
+            <h2 className="text-3xl leading-none font-bold mb-2 ">
               OUR EXPERT <span className="text-headerText">TEAM</span>
             </h2>
           </div>

@@ -8,7 +8,7 @@ const FeaturedRoom = () => {
   const { data, isLoading } = useGetAllRoomsQuery(undefined);
   return (
     <div className="w-full">
-      <h2 className="text-3xl  md:mt-12 mb-2 font-bold text-center">
+      <h2 className="text-3xl  md:mt-12 mb-2 font-bold text-center tracking-wider">
         {" "}
         FEATURED <span className="text-headerText"> ROOMS</span>
       </h2>

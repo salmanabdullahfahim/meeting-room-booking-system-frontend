@@ -51,7 +51,7 @@ const ServiceAdds: React.FC = () => {
         <div className="container px-4 mx-auto">
           <div className="flex max-w-3xl justify-center text-center mx-auto">
             <div>
-              <h2 className="text-3xl mb-10 font-bold text-center">
+              <h2 className="text-3xl mb-10 font-bold text-center tracking-wider">
                 {" "}
                 WE ARE COMMITTED TO GIVE YOU
                 <span className="text-headerText"> THE BEST</span>

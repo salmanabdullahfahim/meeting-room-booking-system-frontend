@@ -109,7 +109,7 @@ const ContactUs = () => {
                 </div>
                 <button
                   type="button"
-                  className="w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  className="w-full rounded-md bg-[#4a53c0] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#4a53c0]/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   Send Message
                 </button>
@@ -127,20 +127,13 @@ const ContactUs = () => {
 
         <div data-aos="fade-up" data-aos-duration="1200">
           <div className="mt-12 md:mt-20">
-            <p className="text-3xl md:mb-8 font-bold text-gray-900 text-center">
+            <p className="text-3xl md:mb-12 font-bold text-gray-900 text-center ">
               Made with love, right here in{" "}
               <span className="text-headerText">Bangladesh</span>
             </p>
           </div>
-          <div className="w-full px-4 sm:px-6 lg:px-8 my-6">
-            <img
-              className="h-[200px] w-full rounded-xl object-cover md:h-full"
-              src="https://dev-ui-image-assets.s3.ap-south-1.amazonaws.com/google-map.jpg"
-              alt=""
-            />
-          </div>
 
-          <div className="my-8 flex flex-col gap-y-6 md:flex-row lg:justify-around mx-6 md:mx-0">
+          <div className="my-12 flex flex-col gap-y-6 md:flex-row lg:justify-around mx-6 md:mx-0">
             {locations.map((location) => (
               <div
                 key={location.title}

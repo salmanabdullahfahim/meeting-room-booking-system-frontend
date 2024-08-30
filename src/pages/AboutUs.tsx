@@ -13,14 +13,6 @@ const stories = [
     icon: FaGraduationCap,
     title: "2000+ 5 star Review",
   },
-  {
-    icon: FaTrophy,
-    title: "Got 2x Award from Ecabs",
-  },
-  {
-    icon: FaRibbon,
-    title: "Top Seller on Amazon",
-  },
 ];
 
 // @ts-ignore
@@ -142,14 +134,16 @@ const AboutUs: React.FC = () => {
                 T. <span className="text-headerText">Meeting's</span> Story
               </h2>
               <p className="text-base sm:text-lg md:text-[18px] leading-relaxed opacity-80 my-6 mt-4 lg:pr-12">
-                At Rettro Type, we are dedicated to bringing you the best
-                mechanical keyboards that combine durability, style, and
-                exceptional performance. Each keyboard is designed with
-                precision to enhance your typing experience, whether you're a
-                gamer, a coder, or a creative professional. Our commitment to
-                quality and customer satisfaction has earned us top rankings and
-                countless 5-star reviews. Join our community and elevate your
-                typing experience with Rettro Type.
+                At T. Meetings, we believe that every meeting deserves to be
+                seamless, efficient, and productive. Our meeting booking
+                platform is designed to simplify the scheduling process, whether
+                you're organizing a quick catch-up, a team brainstorm, or a
+                client presentation. With a focus on user-friendly design,
+                advanced features, and exceptional reliability, our platform
+                ensures that your meetings run smoothly from start to finish.
+                Join countless satisfied users who have streamlined their
+                scheduling with us, and experience the difference that [Your
+                Company Name] can make in your productivity.
               </p>
 
               <div className="grid grid-cols-12 gap-8 mt-10">

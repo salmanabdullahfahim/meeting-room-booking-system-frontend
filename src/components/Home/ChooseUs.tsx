@@ -37,18 +37,15 @@ const ChooseUs = () => {
   return (
     <section className="md:px-8  w-full p-4 mt-40 md:mt-12 rounded-md">
       <div className="container mx-auto text-center">
-        <h2 className="text-3xl mb-2 font-medium tracking-widest text-center">
-          WHY CHOOSE US
+        <h2 className="text-3xl  md:mt-12 font-bold text-center tracking-wider">
+          {" "}
+          WHY CHOOSE<span className="text-headerText"> US</span>
         </h2>
-        {/* underline */}
-        <div className="flex justify-center">
-          <div className="w-20 text-center rounded-md  h-[5px] bg-[#7b82ed]"></div>
-        </div>
         <div className="grid grid-cols-1  mt-16  sm:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-8">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              className="p-6 bg-white rounded-lg shadow-xl hover:shadow-lg transition-shadow"
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
