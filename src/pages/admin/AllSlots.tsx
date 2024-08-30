@@ -105,7 +105,7 @@ const AllSlots = () => {
           Add Slot
         </button>
       </div>
-      <Table className="mt-12">
+      <Table className="mt-12 mb-12">
         <TableHeader>
           <TableRow className=" border-[3px] border-[#9697a1] rounded-full">
             <TableHead className="text-[#557856] font-medium text-base">

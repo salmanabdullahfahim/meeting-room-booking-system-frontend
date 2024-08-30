@@ -70,7 +70,6 @@ const CreateSlot = ({ isDialogOpen, setIsDialogOpen }: any) => {
       console.log(res);
 
       if (res?.success) {
-        toast.success(res?.data?.message);
         swal("Slot added", "", "success");
       }
       if (res?.error) {
