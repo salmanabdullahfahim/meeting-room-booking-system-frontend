@@ -99,8 +99,8 @@ const Navbar = () => {
       {user?.email ? (
         <ProfileDropDown user={user} />
       ) : (
-        <NavLink to="/sign-in" className="ml-56 md:ml-0">
-          <div className="flex justify-center items-center bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-slate-100 hover:text-white rounded-full px-4 py-1.5 border-[1px]   duration-200 cursor-pointer relative">
+        <NavLink to="/sign-in" className="ml-14">
+          <div className="flex justify-center items-center bg-[#4a53c0] hover:bg-[#4a53c0]/90 text-slate-100 hover:text-white rounded-full px-2 md:px-4 py-1.5 border-[1px] text-[12px] md:text-lg text-nowrap  duration-200 cursor-pointer relative">
             Sign In
           </div>
         </NavLink>
