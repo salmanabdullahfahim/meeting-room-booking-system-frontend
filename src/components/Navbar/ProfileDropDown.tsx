@@ -23,7 +23,7 @@ const ProfileDropDown = ({ user }: { user: CustomJwtPayload }) => {
     dispatch(SignOut());
   };
   return (
-    <div className="ml-60 md:ml-0">
+    <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
